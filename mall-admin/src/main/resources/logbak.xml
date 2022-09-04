@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 根节点 -->
+<configuration scan="true" scanPeriod="60 seconds" debug="true">
+    <!-- 用于区分不同应用程序的记录 -->
+    <contextName>xxx</contextName>
+    <!-- 定义参数常量 -->
+    <property name="xxx" value="yyy"/>
+    <!-- 用于说明输出介质，此处说明控制台输出 -->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>xxx</pattern><!-- 打印格式 -->
+            <charset>UTF-8</charset><!-- 解决乱码问题 -->
+        </encoder>
+    </appender>
+    <!-- 用于说明输出介质，此处说明文件输出 -->
+    <appender name="fileout" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 过滤器，用于筛选不同级别的日志 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level><!-- 等级从低到高分别是ALL < TRACE < DEBUG < INFO < WARN < ERROR < OFF -->
+        </filter>
+        <!--滚动策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>xxx</fileNamePattern><!-- 日志文件名 -->
+            <maxHistory>xxx</maxHistory><!-- 最大保存周期，超过删除旧的日志 -->
+            <totalSizeCap>xxx</totalSizeCap><!-- 总日志大小，超过删除旧的日志 -->
+            <cleanHistoryOnStart>false</cleanHistoryOnStart><!-- appender 启动的时候，是否删除归档文件，默认false -->
+        </rollingPolicy>
+        <encoder>
+            <charset>xxx</charset>
+            <pattern>xxx</pattern>
+        </encoder>
+    </appender>
+    <!-- 用于存放日志对象，同时指定关联的package位置 -->
+    <logger name="xxx" level="xxx" additivity="true">
+        <appender-ref ref="stdout" />
+        <appender-ref ref="fileout" />
+    </logger>
+    <!-- 特殊的logger，根logger -->
+    <root lever="info">
+        <appender-ref ref="stdout" /><!-- 指定默认的日志输出 -->
+    </root>
+</configuration>

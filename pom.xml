@@ -2,73 +2,73 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.yuan</groupId>
-    <artifactId>yuan-mall</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    <groupId>com.mall</groupId>
+    <artifactId>mall</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>mall</name>
+    <description>mall</description>
+    <packaging>pom</packaging>
 
-    <!--    模块-->
     <modules>
-        <module>yuan-mall-common</module>
-        <module>yuan-mall-manage</module>
-        <module>yuan-mall-app</module>
-        <module>yuan-mall-security</module>
+        <module>mall-common</module>
+        <module>mall-admin</module>
+        <module>mall-portal</module>
+        <module>mall-mbpg</module>
+        <module>mall-security</module>
     </modules>
-
-
-    <!--    <name>yuanshop</name>-->
-    <!--    <description>yuanshop</description>-->
-    <!--主要用来进行maven依赖的版本号管理 避免子模块中版本号不同产生依赖冲突问题    -->
-    <!-- 依赖版本锁定-->
+    <!-- 数据库驱动、mybatis-plus、数据库连接池、 swagger、jjwt 、hutool-->
     <properties>
-<!--        <java.version>1.8</java.version>-->
-<!--        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
-<!--        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>-->
-<!--        <spring-cloud.version>2021.0.1</spring-cloud.version>-->
-<!--        <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>-->
-
+        <!-- 项目设置:编码格式 UTF-8 及 springboot依赖相关版本 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <druid.version>1.2.9</druid.version>
-        <hutool.version>5.8.0</hutool.version>
-        <swagger2.version>3.0.0</swagger2.version>
-        <swagger-annotations.version>3.0.0</swagger-annotations.version>
-        <mysql-connector.version>8.0.16</mysql-connector.version>
-        <jjwt.version>0.9.0</jjwt.version>
-        <mybatis-plus.version>3.5.0</mybatis-plus.version>
-        <velocity.version>2.2</velocity.version>
-        <lombok.version>1.18.16</lombok.version>
-        <logstash-logback.version>5.3</logstash-logback.version>
 
-<!--        <mall.common.version>0.0.1-SNAPSHOT</mall.common.version>-->
-<!--        <mall.security.version>0.0.1-SNAPSHOT</mall.security.version>-->
+        <hutool.version>5.8.5</hutool.version>
+
+        <mysql-connector.version>8.0.30</mysql-connector.version>
+        <mybatis-plus.version>3.5.2</mybatis-plus.version>
+        <druid.version>1.2.9</druid.version>
+        <redis.version>2.7.2</redis.version>
+
+        <swagger3.version>3.0.0</swagger3.version>
+        <logstash-logback.version>7.2</logstash-logback.version>
+
+        <shiro-redis>3.2.1</shiro-redis>
+        <jjwt.version>0.9.1</jjwt.version>
+
 
     </properties>
 
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter</artifactId>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
+
+        <!--Base plugin-->
+        <dependency>
+            <groupId>com.common</groupId>
+            <artifactId>mall-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
@@ -78,59 +78,65 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
-    </dependencies>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>${swagger3.version}</version>
+        </dependency>
 
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>3.0.3</version>
+        </dependency>
+    </dependencies>
     <dependencyManagement>
         <dependencies>
-            <!--工具类和通用类-->
+            <!--mall通用模块-->
             <dependency>
-                <groupId>com.yuan.mall.common</groupId>
-                <artifactId>yuan-mall-common</artifactId>
+                <groupId>com.macro.mall</groupId>
+                <artifactId>mall-common</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
-            <!--集成druid连接池-->
+            <!-- 数据库驱动 -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <!--mybatis-plus-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <!--druid 数据库链接池-->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid.version}</version>
             </dependency>
-            <!--Mysql数据库驱动-->
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql-connector.version}</version>
-            </dependency>
-            <!--Swagger-UI API文档生产工具-->
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${swagger2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${swagger2.version}</version>
-            </dependency>
-<!--            &lt;!&ndash;解决Swagger 2.9.2版本NumberFormatException&ndash;&gt;-->
 
-<!--            <dependency>-->
-<!--                <groupId>io.swagger</groupId>-->
-<!--                <artifactId>swagger-annotations</artifactId>-->
-<!--                <version>${swagger-annotations.version}</version>-->
-<!--            </dependency>-->
-            <!--lombok依赖-->
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-                <optional>true</optional>
-            </dependency>
-            <!--SpringBoot配置处理-->
+            <!--redis-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-configuration-processor</artifactId>
-                <version>2.3.6.RELEASE</version>
-                <optional>true</optional>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${redis.version}</version>
+            </dependency>
+
+            <!--swagger api文档生成工具-->
+<!--            <dependency>-->
+<!--                <groupId>io.springfox</groupId>-->
+<!--                <artifactId>springfox-boot-starter</artifactId>-->
+<!--                <version>${swagger}</version>-->
+<!--            </dependency>-->
+
+            <!--JWT(Json Web Token)登录支持-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
             </dependency>
 
             <!--Hutool Java工具包-->
@@ -140,85 +146,22 @@
                 <version>${hutool.version}</version>
             </dependency>
 
-            <!--MyBatis Plus 依赖-->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <!--MyBatis分页插件starter-->
-            <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>${pagehelper-starter.version}</version>
-            </dependency>
-            <!--MyBatis Plus 代码生成器-->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-generator</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-
-            <!--jwt-->
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt</artifactId>
-                <version>${jjwt.version}</version>
-            </dependency>
-
-            <!--tuling-security-->
-            <dependency>
-                <groupId>com.tulingxueyuan</groupId>
-                <artifactId>tuling-security</artifactId>
-                <version>${mall.security.version}</version>
-            </dependency>
-
             <!--集成logstash-->
             <dependency>
                 <groupId>net.logstash.logback</groupId>
                 <artifactId>logstash-logback-encoder</artifactId>
                 <version>${logstash-logback.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
-
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                </plugin>
-<!--                <plugin>-->
-<!--                    <groupId>com.spotify</groupId>-->
-<!--                    <artifactId>docker-maven-plugin</artifactId>-->
-<!--                    <version>${docker.maven.plugin.version}</version>-->
-<!--                    &lt;!&ndash;<executions>&ndash;&gt;-->
-<!--                    &lt;!&ndash;<execution>&ndash;&gt;-->
-<!--                    &lt;!&ndash;<id>build-image</id>&ndash;&gt;-->
-<!--                    &lt;!&ndash;<phase>package</phase>&ndash;&gt;-->
-<!--                    &lt;!&ndash;<goals>&ndash;&gt;-->
-<!--                    &lt;!&ndash;<goal>build</goal>&ndash;&gt;-->
-<!--                    &lt;!&ndash;</goals>&ndash;&gt;-->
-<!--                    &lt;!&ndash;</execution>&ndash;&gt;-->
-<!--                    &lt;!&ndash;</executions>&ndash;&gt;-->
-<!--                    <configuration>-->
-<!--                        <imageName>mall/${project.artifactId}:${project.version}</imageName>-->
-<!--                        <dockerHost>${docker.host}</dockerHost>-->
-<!--                        <baseImage>java:8</baseImage>-->
-<!--                        <entryPoint>["java", "-jar", "-Dspring.profiles.active=prod","/${project.build.finalName}.jar"]-->
-<!--                        </entryPoint>-->
-<!--                        <resources>-->
-<!--                            <resource>-->
-<!--                                <targetPath>/</targetPath>-->
-<!--                                <directory>${project.build.directory}</directory>-->
-<!--                                <include>${project.build.finalName}.jar</include>-->
-<!--                            </resource>-->
-<!--                        </resources>-->
-<!--                    </configuration>-->
-<!--                </plugin>-->
-            </plugins>
-        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
